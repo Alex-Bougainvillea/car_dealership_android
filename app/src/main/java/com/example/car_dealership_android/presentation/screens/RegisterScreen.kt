@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,12 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.car_dealership_android.domain.model.UserRole
 import com.example.car_dealership_android.presentation.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     onSuccess: () -> Unit,
-    onRegister: () -> Unit,
+    onBack: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -39,7 +40,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Вход")
+        Text(text = "Регистрация")
         OutlinedTextField(
             value = state.username,
             onValueChange = viewModel::onUsernameChange,
@@ -53,13 +54,26 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
+        Text(text = "Роль")
         Button(
-            onClick = { viewModel.login() },
+            onClick = { viewModel.onRoleChange(UserRole.CLIENT) },
             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp)
         ) {
-            Text(text = if (state.isLoading) "Вход..." else "Войти")
+            Text(text = if (state.role == UserRole.CLIENT) "Клиент (выбрано)" else "Клиент")
         }
-        Button(onClick = onRegister) { Text("Регистрация") }
+        Button(
+            onClick = { viewModel.onRoleChange(UserRole.ADMIN) },
+            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp)
+        ) {
+            Text(text = if (state.role == UserRole.ADMIN) "Админ (выбрано)" else "Админ")
+        }
+        Button(
+            onClick = { viewModel.register() },
+            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp)
+        ) {
+            Text(text = if (state.isLoading) "Создание..." else "Создать аккаунт")
+        }
+        Button(onClick = onBack) { Text("Назад к входу") }
         state.error?.let { Text(text = it) }
     }
 }

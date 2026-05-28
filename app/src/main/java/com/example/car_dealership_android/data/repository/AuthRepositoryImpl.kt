@@ -3,6 +3,8 @@ package com.example.car_dealership_android.data.repository
 import com.example.car_dealership_android.data.mapper.toDomain
 import com.example.car_dealership_android.data.remote.CarDealershipApi
 import com.example.car_dealership_android.data.remote.dto.AuthRequestDto
+import com.example.car_dealership_android.data.remote.dto.RegisterRequestDto
+import com.example.car_dealership_android.domain.model.UserRole
 import com.example.car_dealership_android.domain.repository.AuthRepository
 import com.example.car_dealership_android.domain.repository.AuthResult
 import com.example.car_dealership_android.domain.repository.SessionRepository
@@ -19,4 +21,12 @@ class AuthRepositoryImpl @Inject constructor(
             sessionRepository.saveSession(response.token, user)
             AuthResult.Success(user)
         }.getOrElse { AuthResult.Error(it.message ?: "Login failed") }
+
+    override suspend fun register(username: String, password: String, role: UserRole): AuthResult =
+        runCatching {
+            val response = api.register(RegisterRequestDto(username, password, role.name))
+            val user = response.user.toDomain()
+            sessionRepository.saveSession(response.token, user)
+            AuthResult.Success(user)
+        }.getOrElse { AuthResult.Error(it.message ?: "Registration failed") }
 }

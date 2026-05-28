@@ -12,6 +12,7 @@ import com.example.car_dealership_android.presentation.screens.CarsScreen
 import com.example.car_dealership_android.presentation.screens.ClientsScreen
 import com.example.car_dealership_android.presentation.screens.HomeScreen
 import com.example.car_dealership_android.presentation.screens.LoginScreen
+import com.example.car_dealership_android.presentation.screens.RegisterScreen
 import com.example.car_dealership_android.presentation.screens.RequestsScreen
 
 @Composable
@@ -20,11 +21,24 @@ fun CarDealershipNavHost() {
 
     NavHost(navController = navController, startDestination = NavRoutes.Login) {
         composable(NavRoutes.Login) {
-            LoginScreen(onSuccess = {
-                navController.navigate(NavRoutes.Home) {
-                    popUpTo(NavRoutes.Login) { inclusive = true }
-                }
-            })
+            LoginScreen(
+                onSuccess = {
+                    navController.navigate(NavRoutes.Home) {
+                        popUpTo(NavRoutes.Login) { inclusive = true }
+                    }
+                },
+                onRegister = { navController.navigate(NavRoutes.Register) }
+            )
+        }
+        composable(NavRoutes.Register) {
+            RegisterScreen(
+                onSuccess = {
+                    navController.navigate(NavRoutes.Home) {
+                        popUpTo(NavRoutes.Login) { inclusive = true }
+                    }
+                },
+                onBack = { navController.popBackStack() }
+            )
         }
         composable(NavRoutes.Home) {
             HomeScreen(

@@ -11,6 +11,11 @@ class LoginUseCase(private val repository: AuthRepository) {
         repository.login(username, password)
 }
 
+class RegisterUseCase(private val repository: AuthRepository) {
+    suspend operator fun invoke(username: String, password: String, role: UserRole): AuthResult =
+        repository.register(username, password, role)
+}
+
 class GetCurrentUserUseCase(private val sessionRepository: SessionRepository) {
     operator fun invoke(): User? = sessionRepository.getUser()
 }

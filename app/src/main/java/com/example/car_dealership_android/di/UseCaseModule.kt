@@ -17,6 +17,7 @@ import com.example.car_dealership_android.domain.usecase.GetCurrentUserUseCase
 import com.example.car_dealership_android.domain.usecase.GetRequestsUseCase
 import com.example.car_dealership_android.domain.usecase.GetUserRoleUseCase
 import com.example.car_dealership_android.domain.usecase.LoginUseCase
+import com.example.car_dealership_android.domain.usecase.RegisterUseCase
 import com.example.car_dealership_android.domain.usecase.UpdateCarUseCase
 import dagger.Module
 import dagger.Provides
@@ -28,6 +29,9 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
     @Provides
     fun provideLoginUseCase(repository: AuthRepository) = LoginUseCase(repository)
+
+    @Provides
+    fun provideRegisterUseCase(repository: AuthRepository) = RegisterUseCase(repository)
 
     @Provides
     fun provideGetCurrentUserUseCase(repository: SessionRepository) = GetCurrentUserUseCase(repository)
