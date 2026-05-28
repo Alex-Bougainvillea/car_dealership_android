@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.car_dealership_android"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.car_dealership_android"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
