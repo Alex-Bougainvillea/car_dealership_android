@@ -53,6 +53,8 @@ class CarsViewModelTest {
 
         viewModel.updateBrandFilter("toy")
         viewModel.updateStatusFilter(CarStatus.AVAILABLE)
+        viewModel.updateMinPriceFilter("9000")
+        viewModel.updateMaxPriceFilter("15000")
         val filtered = viewModel.filteredCars()
 
         assertEquals(1, filtered.size)

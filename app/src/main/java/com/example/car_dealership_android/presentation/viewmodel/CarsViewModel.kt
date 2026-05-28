@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 data class CarsUiState(
     val cars: List<Car> = emptyList(),
     val brandFilter: String = "",
+    val minPriceFilter: String = "",
+    val maxPriceFilter: String = "",
     val statusFilter: CarStatus? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
@@ -56,6 +58,14 @@ class CarsViewModel @Inject constructor(
         _state.update { it.copy(statusFilter = value) }
     }
 
+    fun updateMinPriceFilter(value: String) {
+        _state.update { it.copy(minPriceFilter = value) }
+    }
+
+    fun updateMaxPriceFilter(value: String) {
+        _state.update { it.copy(maxPriceFilter = value) }
+    }
+
     fun deleteCar(id: Int) {
         viewModelScope.launch {
             runCatching { deleteCarUseCase(id) }
@@ -68,11 +78,15 @@ class CarsViewModel @Inject constructor(
 
     fun filteredCars(): List<Car> {
         val current = _state.value
+        val minPrice = current.minPriceFilter.toDoubleOrNull()
+        val maxPrice = current.maxPriceFilter.toDoubleOrNull()
         return current.cars.filter { car ->
             val brandOk = current.brandFilter.isBlank() ||
                 car.brand.contains(current.brandFilter, ignoreCase = true)
             val statusOk = current.statusFilter == null || car.status == current.statusFilter
-            brandOk && statusOk
+            val minOk = minPrice == null || car.price >= minPrice
+            val maxOk = maxPrice == null || car.price <= maxPrice
+            brandOk && statusOk && minOk && maxOk
         }
     }
 }
