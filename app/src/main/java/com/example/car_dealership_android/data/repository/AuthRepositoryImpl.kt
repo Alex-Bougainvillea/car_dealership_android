@@ -4,6 +4,7 @@ import com.example.car_dealership_android.data.mapper.toDomain
 import com.example.car_dealership_android.data.remote.CarDealershipApi
 import com.example.car_dealership_android.data.remote.dto.AuthRequestDto
 import com.example.car_dealership_android.data.remote.dto.RegisterRequestDto
+import com.example.car_dealership_android.data.remote.toReadableNetworkMessage
 import com.example.car_dealership_android.domain.model.UserRole
 import com.example.car_dealership_android.domain.repository.AuthRepository
 import com.example.car_dealership_android.domain.repository.AuthResult
@@ -20,7 +21,7 @@ class AuthRepositoryImpl @Inject constructor(
             val user = response.user.toDomain()
             sessionRepository.saveSession(response.token, user)
             AuthResult.Success(user)
-        }.getOrElse { AuthResult.Error(it.message ?: "Login failed") }
+        }.getOrElse { AuthResult.Error(it.toReadableNetworkMessage("Login failed")) }
 
     override suspend fun register(username: String, password: String, role: UserRole): AuthResult =
         runCatching {
@@ -28,5 +29,5 @@ class AuthRepositoryImpl @Inject constructor(
             val user = response.user.toDomain()
             sessionRepository.saveSession(response.token, user)
             AuthResult.Success(user)
-        }.getOrElse { AuthResult.Error(it.message ?: "Registration failed") }
+        }.getOrElse { AuthResult.Error(it.toReadableNetworkMessage("Registration failed")) }
 }
