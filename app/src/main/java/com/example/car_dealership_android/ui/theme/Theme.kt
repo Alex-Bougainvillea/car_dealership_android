@@ -9,35 +9,50 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Gold500,
+    onPrimary = Navy900,
+    primaryContainer = Gold200,
+    onPrimaryContainer = Navy900,
+    secondary = Navy500,
+    onSecondary = Steel50,
+    tertiary = Gold600,
+    background = Navy900,
+    onBackground = Steel50,
+    surface = Navy800,
+    onSurface = Steel50,
+    surfaceVariant = Navy700,
+    onSurfaceVariant = Steel100,
+    error = SoldRed,
+    errorContainer = SoldContainer
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Navy700,
+    onPrimary = Steel50,
+    primaryContainer = Steel100,
+    onPrimaryContainer = Navy900,
+    secondary = Gold600,
+    onSecondary = Navy900,
+    tertiary = Gold500,
+    background = Steel50,
+    onBackground = Navy900,
+    surface = Color(0xFFFFFFFF),
+    onSurface = Navy900,
+    surfaceVariant = Steel100,
+    onSurfaceVariant = Steel700,
+    error = SoldRed,
+    errorContainer = SoldContainer
 )
 
 @Composable
 fun Car_dealership_androidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
