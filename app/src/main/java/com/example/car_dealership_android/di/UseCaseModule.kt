@@ -10,6 +10,7 @@ import com.example.car_dealership_android.domain.usecase.CreateCarUseCase
 import com.example.car_dealership_android.domain.usecase.CreateClientUseCase
 import com.example.car_dealership_android.domain.usecase.CreateRequestUseCase
 import com.example.car_dealership_android.domain.usecase.DeleteCarUseCase
+import com.example.car_dealership_android.domain.usecase.DeleteRequestUseCase
 import com.example.car_dealership_android.domain.usecase.GetCarUseCase
 import com.example.car_dealership_android.domain.usecase.GetCarsUseCase
 import com.example.car_dealership_android.domain.usecase.GetClientsUseCase
@@ -68,4 +69,7 @@ object UseCaseModule {
 
     @Provides
     fun provideCreateRequestUseCase(repository: RequestRepository) = CreateRequestUseCase(repository)
+
+    @Provides
+    fun provideDeleteRequestUseCase(repository: RequestRepository) = DeleteRequestUseCase(repository)
 }

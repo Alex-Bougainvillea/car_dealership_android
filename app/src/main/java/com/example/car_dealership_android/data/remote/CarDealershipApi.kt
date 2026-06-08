@@ -51,4 +51,7 @@ interface CarDealershipApi {
 
     @POST("requests")
     suspend fun createRequest(@Body request: PurchaseRequestCreateRequestDto): PurchaseRequestDto
+
+    @DELETE("requests/{id}")
+    suspend fun deleteRequest(@Path("id") id: Int): Response<Unit>
 }

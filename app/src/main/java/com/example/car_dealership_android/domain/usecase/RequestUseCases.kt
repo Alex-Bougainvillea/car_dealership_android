@@ -11,3 +11,7 @@ class CreateRequestUseCase(private val repository: RequestRepository) {
     suspend operator fun invoke(clientId: Int, carId: Int): PurchaseRequest =
         repository.createRequest(clientId, carId)
 }
+
+class DeleteRequestUseCase(private val repository: RequestRepository) {
+    suspend operator fun invoke(id: Int) = repository.deleteRequest(id)
+}

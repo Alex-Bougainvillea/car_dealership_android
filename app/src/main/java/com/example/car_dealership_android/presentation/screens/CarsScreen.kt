@@ -274,6 +274,11 @@ private fun CarItem(
                 verticalAlignment = Alignment.Top
             ) {
                 Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Авто #${car.id}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                     Text(text = "${car.brand} ${car.model}", style = MaterialTheme.typography.titleLarge)
                     Text(
                         text = "${car.year} год",

@@ -112,6 +112,11 @@ private fun CarDetailsContent(
                                 .fillMaxWidth()
                                 .aspectRatio(16f / 10f)
                         )
+                        Text(
+                            text = "Авто #${car.id}",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
                         Text(text = "${car.brand} ${car.model}", style = MaterialTheme.typography.headlineMedium)
                         Text(
                             text = "%,.0f ₽".format(car.price),

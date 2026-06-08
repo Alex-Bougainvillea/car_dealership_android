@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.car_dealership_android.domain.model.PurchaseRequest
 import com.example.car_dealership_android.domain.usecase.CreateRequestUseCase
+import com.example.car_dealership_android.domain.usecase.DeleteRequestUseCase
 import com.example.car_dealership_android.domain.usecase.GetRequestsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,7 +24,8 @@ data class RequestsUiState(
 @HiltViewModel
 class RequestsViewModel @Inject constructor(
     private val getRequestsUseCase: GetRequestsUseCase,
-    private val createRequestUseCase: CreateRequestUseCase
+    private val createRequestUseCase: CreateRequestUseCase,
+    private val deleteRequestUseCase: DeleteRequestUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(RequestsUiState())
     val state: StateFlow<RequestsUiState> = _state
@@ -61,6 +63,16 @@ class RequestsViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false, error = error.message) }
+                }
+        }
+    }
+
+    fun deleteRequest(id: Int) {
+        viewModelScope.launch {
+            runCatching { deleteRequestUseCase(id) }
+                .onSuccess { loadRequests() }
+                .onFailure { error ->
+                    _state.update { it.copy(error = error.message) }
                 }
         }
     }

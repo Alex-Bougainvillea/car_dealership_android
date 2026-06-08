@@ -123,6 +123,7 @@ private fun ClientCard(client: Client) {
         ) {
             Icon(Icons.Default.Person, contentDescription = null, tint = MaterialTheme.colorScheme.secondary)
             Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text("Клиент #${client.id}", color = MaterialTheme.colorScheme.secondary)
                 Text("${client.firstName} ${client.lastName}", style = MaterialTheme.typography.titleMedium)
                 Text(client.phone, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text(client.email, color = MaterialTheme.colorScheme.onSurfaceVariant)

@@ -11,12 +11,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -59,7 +61,8 @@ fun RequestsScreen(
         state = state,
         onClientId = viewModel::updateClientId,
         onCarId = viewModel::updateCarId,
-        onCreate = viewModel::createRequest
+        onCreate = viewModel::createRequest,
+        onDelete = viewModel::deleteRequest
     )
 }
 
@@ -68,7 +71,8 @@ private fun RequestsContent(
     state: RequestsUiState,
     onClientId: (String) -> Unit,
     onCarId: (String) -> Unit,
-    onCreate: () -> Unit
+    onCreate: () -> Unit,
+    onDelete: (Int) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -87,7 +91,10 @@ private fun RequestsContent(
             ) {
                 item { ScreenTitle(title = "Заявки", subtitle = "Всего: ${state.requests.size}") }
                 items(state.requests, key = { it.id }) { request ->
-                    RequestCard(request = request)
+                    RequestCard(
+                        request = request,
+                        onDelete = { onDelete(request.id) }
+                    )
                 }
                 item {
                     NewRequestCard(
@@ -103,7 +110,10 @@ private fun RequestsContent(
 }
 
 @Composable
-private fun RequestCard(request: PurchaseRequest) {
+private fun RequestCard(
+    request: PurchaseRequest,
+    onDelete: () -> Unit
+) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = CardShape,
@@ -115,11 +125,17 @@ private fun RequestCard(request: PurchaseRequest) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(Icons.AutoMirrored.Filled.Assignment, contentDescription = null, tint = MaterialTheme.colorScheme.secondary)
-            Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
                 Text("Заявка #${request.id}", style = MaterialTheme.typography.titleMedium)
                 Text("Клиент ID: ${request.clientId}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text("Авто ID: ${request.carId}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text(request.createdAt, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            IconButton(onClick = onDelete) {
+                Icon(Icons.Default.Delete, contentDescription = "Удалить заявку")
             }
         }
     }
@@ -180,7 +196,8 @@ fun RequestsScreenPreview() {
             ),
             onClientId = {},
             onCarId = {},
-            onCreate = {}
+            onCreate = {},
+            onDelete = {}
         )
     }
 }
